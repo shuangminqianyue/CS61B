@@ -11,7 +11,7 @@ public class Planet {
     public String imgFileName;
 
     /* The value of the gravitational constant G. */
-    public static final double G = 6.67e-11;
+    private static final double G = 6.67e-11;
 
     /* One method of constructing a Planet. */
     public Planet(double xP, double yP, double xV, double yV, double m, String img) {
