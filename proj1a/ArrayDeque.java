@@ -97,13 +97,15 @@ public class ArrayDeque<T> {
     @SuppressWarnings("unchecked")
     private void resizeArray(int newCapacity) {
         T[] newArray = (T[]) new Object[newCapacity];
-        for (int i = 0; i < size; i++) {
-            int pos = (front + i) % items.length;
-            newArray[i] = items[pos];
+        if (front <= rear) {
+            System.arraycopy(items, front, newArray, 0, size);
+        } else {
+            System.arraycopy(items, front, newArray, 0, items.length - front);
+            System.arraycopy(items, 0, newArray, items.length - front, rear + 1);
         }
         items = newArray;
         front = 0;
-        rear = size;
+        rear = size; // Adjust the rear index after resizing
     }
 
     /**
