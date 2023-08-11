@@ -10,6 +10,7 @@ public class ArrayDeque<T> {
     private int rear;
 
     /* Constructor to creat a ArrayDeque. */
+    @SuppressWarnings("unchecked")
     public ArrayDeque() {
         items = (T[]) new Object[INITIAL_CAPACITY];
         size = 0;
@@ -77,6 +78,7 @@ public class ArrayDeque<T> {
     }
 
     /* Resize the array to the given capacity. */
+    @SuppressWarnings("unchecked")
     private void resizeArray(int newCapacity) {
         T[] newArray = (T[]) new Object[newCapacity];
         for (int i = 0; i < size; i++) {
@@ -97,4 +99,5 @@ public class ArrayDeque<T> {
             resizeArray(Math.max(INITIAL_CAPACITY, (int) (size / USAGE_FACTOR_THRESHOLD)));
         }
     }
+
 }
