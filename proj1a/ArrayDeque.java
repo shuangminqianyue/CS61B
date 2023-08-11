@@ -62,30 +62,28 @@ public class ArrayDeque<T> {
 
     /* Remove an item from the front of the deque. */
     public T removeFirst() {
-        if (!isEmpty()) {
-            T removedItem = items[front];
-            items[front] = null;
-            front = (front + 1) % items.length;
-            size--;
-            resizeIfNecessary();
-            return removedItem;
-        } else {
+        if (isEmpty()) {
             return null;
         }
+        T removedItem = items[front];
+        items[front] = null;
+        front = (front + 1) % items.length;
+        size--;
+        resizeIfNecessary();
+        return removedItem;
     }
 
     /* Remove an item from the end of the deque. */
     public T removeLast() {
-        if (!isEmpty()) {
-            rear = (rear - 1 + items.length) % items.length;
-            T removedItem = items[rear];
-            items[rear] = null;
-            size--;
-            resizeIfNecessary();
-            return removedItem;
-        } else {
+        if (isEmpty()) {
             return null;
         }
+        rear = (rear - 1 + items.length) % items.length;
+        T removedItem = items[rear];
+        items[rear] = null;
+        size--;
+        resizeIfNecessary();
+        return removedItem;
     }
 
     /* Get an item by index. */
@@ -114,7 +112,7 @@ public class ArrayDeque<T> {
     private void resizeIfNecessary() {
         double usageFactor = (double) size / items.length;
         if (items.length >= 16 || usageFactor < USAGE_FACTOR_THRESHOLD) {
-            resizeArray(Math.max(INITIAL_CAPACITY, (int) (size / USAGE_FACTOR_THRESHOLD)));
+            resizeArray(Math.max(INITIAL_CAPACITY, size));
         }
     }
 
