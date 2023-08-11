@@ -18,6 +18,10 @@ public class ArrayDeque<T> {
         rear = 0;
     }
 
+    private int logicalIndex(int physicalIndex) {
+        return (front + physicalIndex) % items.length;
+    }
+
     /* Add an item to the front of the deque. */
     public void addFirst(T item) {
         if (size == items.length) {
@@ -87,8 +91,7 @@ public class ArrayDeque<T> {
     /* Get an item by index. */
     public T get(int index) {
         if (index >= 0 && index < size) {
-            int pos = (front + index) % items.length;
-            return items[pos];
+            return items[logicalIndex(index)];
         }
         return null;
     }
@@ -98,7 +101,7 @@ public class ArrayDeque<T> {
     private void resizeArray(int newCapacity) {
         T[] newArray = (T[]) new Object[newCapacity];
         for (int i = 0; i < size; i++) {
-            newArray[i] = get(i);
+            newArray[i] = items[logicalIndex(i)];
         }
         items = newArray;
         front = 0;
