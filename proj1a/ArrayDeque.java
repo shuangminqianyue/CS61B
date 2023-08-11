@@ -73,10 +73,9 @@ public class ArrayDeque<T> {
     /* Remove an item from the end of the deque. */
     public T removeLast() {
         if (!isEmpty()) {
-            int lastPosition = (rear - 1 + items.length) % items.length;
-            T removedItem = items[lastPosition];
-            items[lastPosition] = null;
-            rear = lastPosition;
+            rear = (rear - 1 + items.length) % items.length;
+            T removedItem = items[rear];
+            items[rear] = null;
             size--;
             resizeIfNecessary();
             return removedItem;
