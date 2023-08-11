@@ -98,8 +98,7 @@ public class ArrayDeque<T> {
     private void resizeArray(int newCapacity) {
         T[] newArray = (T[]) new Object[newCapacity];
         for (int i = 0; i < size; i++) {
-            int pos = (front + i) % items.length;
-            newArray[i] = items[pos];
+            newArray[i] = get(i);
         }
         items = newArray;
         front = 0;
