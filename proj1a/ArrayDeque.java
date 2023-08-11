@@ -48,23 +48,40 @@ public class ArrayDeque<T> {
         return size;
     }
 
+    /* Prints the items in the deque from first to last, separated by a space. */
+    public void printDeque() {
+        for (int i = front; i != rear; i = (i + 1) % items.length) {
+            System.out.print(items[i] + " ");
+        }
+        System.out.println();
+    }
+
     /* Remove an item from the front of the deque. */
-    public void removeFirst() {
+    public T removeFirst() {
         if (!isEmpty()) {
-            front = (front + 1) % items.length;
+            T removedItem = items[front];
             items[front] = null;
+            front = (front + 1) % items.length;
             size--;
             resizeIfNecessary();
+            return removedItem;
+        } else {
+            return null;
         }
     }
 
     /* Remove an item from the end of the deque. */
-    public void removeLast() {
+    public T removeLast() {
         if (!isEmpty()) {
-            rear = (rear - 1 + items.length) % items.length;
-            items[rear] = null;
+            int lastPosition = (rear - 1 + items.length) % items.length;
+            T removedItem = items[lastPosition];
+            items[lastPosition] = null;
+            rear = lastPosition;
             size--;
             resizeIfNecessary();
+            return removedItem;
+        } else {
+            return null;
         }
     }
 
