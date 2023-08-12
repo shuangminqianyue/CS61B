@@ -1,122 +1,100 @@
-/* Implement a array-based deque 'ArrayDeque' class. */
 public class ArrayDeque<T> {
     private static final int INITIAL_CAPACITY = 8;
-    private static final double RESIZE_FACTOR = 2.0;
-    private static final double USAGE_FACTOR_THRESHOLD = 0.25;
+    private static final double USAGE_FACTOR = 0.25;
 
-    private T[] items;
+    private T[] array;
     private int size;
     private int front;
-    private int rear;
+    private int back;
 
-    /* Constructor to creat a ArrayDeque. */
     @SuppressWarnings("unchecked")
     public ArrayDeque() {
-        items = (T[]) new Object[INITIAL_CAPACITY];
+        array = (T[]) new Object[INITIAL_CAPACITY];
         size = 0;
         front = 0;
-        rear = 0;
+        back = 0;
     }
 
-    private int logicalIndex(int physicalIndex) {
-        return (front + physicalIndex) % items.length;
-    }
-
-    /* Add an item to the front of the deque. */
     public void addFirst(T item) {
-        if (size == items.length) {
-            resizeArray((int) (items.length * RESIZE_FACTOR));
+        if (size == array.length) {
+            resizeArray(array.length * 2);
         }
-        front = (front - 1 + items.length) % items.length;
-        items[front] = item;
+        front = (front - 1 + array.length) % array.length;
+        array[front] = item;
         size++;
     }
 
-    /* Add an item to the end of the deque. */
     public void addLast(T item) {
-        if (size == items.length) {
-            resizeArray((int) (items.length * RESIZE_FACTOR));
+        if (size == array.length) {
+            resizeArray(array.length * 2);
         }
-        items[rear] = item;
-        rear = (rear + 1) % items.length;
+        array[back] = item;
+        back = (back + 1) % array.length;
         size++;
     }
 
-    /* Check if the deque is empty. */
     public boolean isEmpty() {
         return size == 0;
     }
 
-    /* Get the size of the deque. */
     public int size() {
         return size;
     }
 
-    /* Prints the items in the deque from first to last, separated by a space. */
     public void printDeque() {
-        for (int i = front; i != rear; i = (i + 1) % items.length) {
-            System.out.print(items[i] + " ");
+        int index = front;
+        for (int i = 0; i < size; i++) {
+            System.out.print(array[index] + " ");
+            index = (index + 1) % array.length;
         }
         System.out.println();
     }
 
-    /* Remove an item from the front of the deque. */
     public T removeFirst() {
-        if (!isEmpty()) {
-            T removedItem = items[front];
-            items[front] = null;
-            front = (front + 1) % items.length;
-            size--;
-            resizeIfNecessary();
-            return removedItem;
-        } else {
+        if (isEmpty()) {
             return null;
         }
+        T item = array[front];
+        array[front] = null;
+        front = (front + 1) % array.length;
+        size--;
+        if (array.length >= INITIAL_CAPACITY && (double) size / array.length < USAGE_FACTOR) {
+            resizeArray(array.length / 2);
+        }
+        return item;
     }
 
-    /* Remove an item from the end of the deque. */
     public T removeLast() {
-        if (!isEmpty()) {
-            rear = (rear - 1 + items.length) % items.length;
-            T removedItem = items[rear];
-            items[rear] = null;
-            size--;
-            resizeIfNecessary();
-            return removedItem;
-        } else {
+        if (isEmpty()) {
             return null;
         }
-    }
-
-    /* Get an item by index. */
-    public T get(int index) {
-        if (index >= 0 && index < size) {
-            return items[logicalIndex(index)];
+        back = (back - 1 + array.length) % array.length;
+        T item = array[back];
+        array[back] = null;
+        size--;
+        if (array.length >= INITIAL_CAPACITY && (double) size / array.length < USAGE_FACTOR) {
+            resizeArray(array.length / 2);
         }
-        return null;
+        return item;
     }
 
-    /* Resize the array to the given capacity. */
+    public T get(int index) {
+        if (index < 0 || index >= size) {
+            return null;
+        }
+        int actualIndex = (front + index) % array.length;
+        return array[actualIndex];
+    }
+
     @SuppressWarnings("unchecked")
     private void resizeArray(int newCapacity) {
         T[] newArray = (T[]) new Object[newCapacity];
         for (int i = 0; i < size; i++) {
-            newArray[i] = get(i);
+            newArray[i] = array[(front + i) % array.length];
         }
-        items = newArray;
+        array = newArray;
         front = 0;
-        rear = size;
-    }
-
-    /**
-     * Resize only if the array length is 16 or more,
-     * or the usage factor is too low.
-     */
-    private void resizeIfNecessary() {
-        double usageFactor = (double) size / items.length;
-        if (items.length >= 16 || usageFactor < USAGE_FACTOR_THRESHOLD) {
-            resizeArray(Math.max(INITIAL_CAPACITY, (int) (size / USAGE_FACTOR_THRESHOLD)));
-        }
+        back = size;
     }
 
 }
