@@ -1,10 +1,13 @@
 import java.util.Formatter;
 
+import javax.swing.text.html.InlineView;
+
 /**
  * A naked recursive list of integers, similar to what we saw in lecture 3, but
  * with a large number of additional methods.
  *
- * @author P. N. Hilfinger, with some modifications by Josh Hug and melaniecebula
+ * @author P. N. Hilfinger, with some modifications by Josh Hug and
+ *         melaniecebula
  *         [Do not modify this file.]
  */
 public class IntList {
@@ -29,7 +32,7 @@ public class IntList {
      * A List with null rest, and first = 0.
      */
     public IntList() {
-    /* NOTE: public IntList () { }  would also work. */
+        /* NOTE: public IntList () { } would also work. */
         this(0, null);
     }
 
@@ -74,40 +77,29 @@ public class IntList {
 
     /** DO NOT MODIFY ANYTHING ABOVE THIS LINE! */
 
-
     /**
      * Returns a list consisting of the elements of A followed by the
-     * *  elements of B.  May modify items of A. Don't use 'new'.
+     * elements of B. May modify items of A. Don't use 'new'.
      */
-
     public static IntList dcatenate(IntList A, IntList B) {
-        //TODO:  fill in method
-        return null;
+        IntList curr = A;
+        while (curr.rest != null) {
+            curr = curr.rest;
+        }
+        curr.rest = B;
+        return A;
     }
 
     /**
      * Returns a list consisting of the elements of A followed by the
-     * * elements of B.  May NOT modify items of A.  Use 'new'.
+     * elements of B. May NOT modify items of A. Use 'new'.
      */
     public static IntList catenate(IntList A, IntList B) {
-        //TODO:  fill in method
-        return null;
+        if (A == null) {
+            return B;
+        }
+        return new IntList(A.first, catenate(A.rest, B));
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /**
      * DO NOT MODIFY ANYTHING BELOW THIS LINE! Many of the concepts below here
@@ -186,7 +178,6 @@ public class IntList {
 
         int cnt = 0;
 
-
         while (true) {
             cnt++;
             if (hare.rest != null) {
@@ -208,8 +199,10 @@ public class IntList {
     }
 
     @Override
-    /** Outputs the IntList as a String. You are not expected to read
-     * or understand this method. */
+    /**
+     * Outputs the IntList as a String. You are not expected to read
+     * or understand this method.
+     */
     public String toString() {
         Formatter out = new Formatter();
         String sep;
@@ -231,4 +224,3 @@ public class IntList {
         return out.toString();
     }
 }
-
