@@ -29,7 +29,7 @@ public class ArrayDeque<T> {
         }
         front = (front - 1 + items.length) % items.length;
         items[front] = item;
-        size += 1;
+        size++;
     }
 
     /* Add an item to the end of the deque. */
@@ -101,7 +101,7 @@ public class ArrayDeque<T> {
     private void resizeArray(int newCapacity) {
         T[] newArray = (T[]) new Object[newCapacity];
         for (int i = 0; i < size; i++) {
-            newArray[i] = items[logicalIndex(i)];
+            newArray[i] = get(i);
         }
         items = newArray;
         front = 0;
@@ -109,7 +109,8 @@ public class ArrayDeque<T> {
     }
 
     /**
-     * Resize only if the array length is 16 or more, or the usage factor is too low
+     * Resize only if the array length is 16 or more,
+     * or the usage factor is too low.
      */
     private void resizeIfNecessary() {
         double usageFactor = (double) size / items.length;
