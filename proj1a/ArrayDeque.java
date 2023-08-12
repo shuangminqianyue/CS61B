@@ -1,3 +1,5 @@
+/** The final implementation of ArrayDeque based on array. */
+
 public class ArrayDeque<T> {
     private static final int INITIAL_CAPACITY = 8;
     private static final double USAGE_FACTOR = 0.25;
@@ -7,6 +9,7 @@ public class ArrayDeque<T> {
     private int front;
     private int back;
 
+    /* Consturctor of ArrayDeque. */
     @SuppressWarnings("unchecked")
     public ArrayDeque() {
         array = (T[]) new Object[INITIAL_CAPACITY];
@@ -15,6 +18,7 @@ public class ArrayDeque<T> {
         back = 0;
     }
 
+    /* Add an item to the front of the deque. */
     public void addFirst(T item) {
         if (size == array.length) {
             resizeArray(array.length * 2);
@@ -24,6 +28,7 @@ public class ArrayDeque<T> {
         size++;
     }
 
+    /* Add an item to the end of the deque. */
     public void addLast(T item) {
         if (size == array.length) {
             resizeArray(array.length * 2);
@@ -33,14 +38,17 @@ public class ArrayDeque<T> {
         size++;
     }
 
+    /* Check if the deque is empty. */
     public boolean isEmpty() {
         return size == 0;
     }
 
+    /* Get the size of the deque. */
     public int size() {
         return size;
     }
 
+    /* Prints the items in the deque from first to last, separated by a space. */
     public void printDeque() {
         int index = front;
         for (int i = 0; i < size; i++) {
@@ -50,6 +58,7 @@ public class ArrayDeque<T> {
         System.out.println();
     }
 
+    /* Remove an item from the front of the deque. */
     public T removeFirst() {
         if (isEmpty()) {
             return null;
@@ -64,6 +73,7 @@ public class ArrayDeque<T> {
         return item;
     }
 
+    /* Remove an item from the end of the deque. */
     public T removeLast() {
         if (isEmpty()) {
             return null;
@@ -78,6 +88,7 @@ public class ArrayDeque<T> {
         return item;
     }
 
+    /* Get an item by index. */
     public T get(int index) {
         if (index < 0 || index >= size) {
             return null;
@@ -86,6 +97,7 @@ public class ArrayDeque<T> {
         return array[actualIndex];
     }
 
+    /* Resize the array to the given capacity. */
     @SuppressWarnings("unchecked")
     private void resizeArray(int newCapacity) {
         T[] newArray = (T[]) new Object[newCapacity];
